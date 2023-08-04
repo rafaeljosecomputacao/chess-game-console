@@ -1,4 +1,5 @@
 ﻿using System;
+using ChessGame.BoardLayer;
 
 namespace ChessGame
 {
@@ -6,7 +7,8 @@ namespace ChessGame
     {
         static void Main(string[] args)
         {
-            
+            Position position = new Position(3, 4);
+            Console.WriteLine("Position: " + position);
         }
     }
 }
