@@ -17,5 +17,11 @@
         { 
             return Parts[lines, columns];
         }
+
+        public void PutPart(Part part, Position position)
+        {
+            Parts[position.Line, position.Column] = part;
+            part.Position = position;
+        }
     }
 }

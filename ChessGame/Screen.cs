@@ -1,5 +1,6 @@
 ﻿using System;
 using ChessGame.BoardLayer;
+using ChessGame.ChessLayer;
 
 namespace ChessGame
 {

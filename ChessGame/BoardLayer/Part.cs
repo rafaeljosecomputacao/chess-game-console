@@ -9,9 +9,9 @@ namespace ChessGame.BoardLayer
         public int QuantityMoves { get; protected set; }
         public Board Board { get; protected set; }
 
-        public Part(Position position, Color color, Board board)
+        public Part(Color color, Board board)
         {
-            Position = position;
+            Position = null;
             Color = color;
             Board = board;
             QuantityMoves = 0;
