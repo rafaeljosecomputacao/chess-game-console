@@ -12,5 +12,10 @@
             Columns = columns;
             Parts = new Part[lines, columns];
         }
+
+        public Part Part(int lines, int columns) 
+        { 
+            return Parts[lines, columns];
+        }
     }
 }
