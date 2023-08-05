@@ -12,15 +12,21 @@ namespace ChessGame
         {
             try
             {
-                Board board = new Board(8, 8);
+                MatchChess match = new MatchChess();
 
-                board.PutPart(new Tower(board, Color.Black), new Position(0, 0));
-                board.PutPart(new Tower(board, Color.Black), new Position(1, 3));
-                board.PutPart(new King(board, Color.Black), new Position(0, 2));
+                while (!match.Finished)
+                {
+                    Console.Clear();
+                    Screen.PrintBoard(match.Board);
 
-                board.PutPart(new Tower(board, Color.White), new Position(6, 5));
+                    Console.WriteLine();
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadPositionChess().ToPosition();
+                    Console.Write("Target: ");
+                    Position target = Screen.ReadPositionChess().ToPosition();
 
-                Screen.PrintBoard(board);
+                    match.ExecuteMove(origin, target);
+                }              
             }
             catch (BoardException e)
             {

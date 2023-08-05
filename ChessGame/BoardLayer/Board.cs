@@ -41,6 +41,18 @@ namespace ChessGame.BoardLayer
             part.Position = position;
         }
 
+        public Part RemovePart(Position position)
+        {
+            if (Part(position) == null)
+            {
+                return null;
+            }
+            Part auxiliary = Part(position);
+            auxiliary.Position = null;
+            Parts[position.Line, position.Column] = null;
+            return auxiliary;
+        }
+
         public bool ValidPosition(Position position)
         {
             if(position.Line < 0 || position.Line >= Lines || position.Column < 0 || position.Column >= Columns)

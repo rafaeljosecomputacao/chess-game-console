@@ -52,5 +52,13 @@ namespace ChessGame
                 Console.ForegroundColor = originalColor;
             }
         }
+
+        public static PositionChess ReadPositionChess()
+        {
+            string originTarget = Console.ReadLine();
+            char column = originTarget[0];
+            int line = int.Parse(originTarget[1] + "");
+            return new PositionChess(column, line);
+        }
     }
 }

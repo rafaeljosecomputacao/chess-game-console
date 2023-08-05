@@ -16,5 +16,10 @@ namespace ChessGame.BoardLayer
             Position = null;        
             QuantityMoves = 0;
         }
+
+        public void IncreaseQuantityMoves()
+        {
+            QuantityMoves++;
+        }
     }
 }
