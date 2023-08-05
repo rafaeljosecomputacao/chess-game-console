@@ -5,7 +5,7 @@ namespace ChessGame.ChessLayer
 {
     internal class Tower : Part
     {
-        public Tower(Color color, Board board) : base(color, board) { }
+        public Tower(Board board, Color color) : base(board, color) { }
 
         public override string ToString()
         {
