@@ -10,6 +10,10 @@ namespace ChessGame
     {
         static void Main(string[] args)
         {
+            PositionChess positionChess = new PositionChess('c', 7);
+            Console.WriteLine(positionChess);
+            Console.WriteLine(positionChess.ToPosition());
+            /*
             try
             {
                 Board board = new Board(8, 8);
@@ -24,6 +28,7 @@ namespace ChessGame
             {
                 Console.WriteLine(e.Message);
             }
+            */
         }
     }
 }
