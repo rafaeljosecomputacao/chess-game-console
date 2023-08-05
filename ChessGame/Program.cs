@@ -10,17 +10,15 @@ namespace ChessGame
     {
         static void Main(string[] args)
         {
-            PositionChess positionChess = new PositionChess('c', 7);
-            Console.WriteLine(positionChess);
-            Console.WriteLine(positionChess.ToPosition());
-            /*
             try
             {
                 Board board = new Board(8, 8);
 
                 board.PutPart(new Tower(board, Color.Black), new Position(0, 0));
-                board.PutPart(new Tower(board, Color.Black), new Position(1, 9));
+                board.PutPart(new Tower(board, Color.Black), new Position(1, 3));
                 board.PutPart(new King(board, Color.Black), new Position(0, 2));
+
+                board.PutPart(new Tower(board, Color.White), new Position(6, 5));
 
                 Screen.PrintBoard(board);
             }
@@ -28,7 +26,6 @@ namespace ChessGame
             {
                 Console.WriteLine(e.Message);
             }
-            */
         }
     }
 }
