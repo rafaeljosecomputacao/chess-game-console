@@ -31,19 +31,39 @@ namespace ChessGame.ChessLayer
 
         private void PutParts()
         {
-            PutNewPart('c', 1, new Tower(Board, Color.White));
-            PutNewPart('h', 7, new Tower(Board, Color.White));
-            //PutNewPart('d', 2, new Tower(Board, Color.White));
-            //PutNewPart('e', 2, new Tower(Board, Color.White));
-            //PutNewPart('e', 1, new Tower(Board, Color.White));
-            PutNewPart('d', 1, new King(Board, Color.White));
+            PutNewPart('a', 1, new Tower(Board, Color.White));
+            PutNewPart('b', 1, new Horse(Board, Color.White));
+            PutNewPart('c', 1, new Bishop(Board, Color.White));
+            PutNewPart('d', 1, new Queen(Board, Color.White));
+            PutNewPart('e', 1, new King(Board, Color.White));
+            PutNewPart('f', 1, new Bishop(Board, Color.White));
+            PutNewPart('g', 1, new Horse(Board, Color.White));
+            PutNewPart('h', 1, new Tower(Board, Color.White));
+            PutNewPart('a', 2, new Pawn(Board, Color.White));
+            PutNewPart('b', 2, new Pawn(Board, Color.White));
+            PutNewPart('c', 2, new Pawn(Board, Color.White));
+            PutNewPart('d', 2, new Pawn(Board, Color.White));
+            PutNewPart('e', 2, new Pawn(Board, Color.White));
+            PutNewPart('f', 2, new Pawn(Board, Color.White));
+            PutNewPart('g', 2, new Pawn(Board, Color.White));
+            PutNewPart('h', 2, new Pawn(Board, Color.White));
 
-            PutNewPart('b', 8, new Tower(Board, Color.Black));
-            //PutNewPart('c', 8, new Tower(Board, Color.Black));
-            //PutNewPart('d', 7, new Tower(Board, Color.Black));
-            //PutNewPart('e', 7, new Tower(Board, Color.Black));
-            //PutNewPart('e', 8, new Tower(Board, Color.Black));
-            PutNewPart('a', 8, new King(Board, Color.Black));
+            PutNewPart('a', 8, new Tower(Board, Color.Black));
+            PutNewPart('b', 8, new Horse(Board, Color.Black));
+            PutNewPart('c', 8, new Bishop(Board, Color.Black));
+            PutNewPart('d', 8, new Queen(Board, Color.Black));
+            PutNewPart('e', 8, new King(Board, Color.Black));
+            PutNewPart('f', 8, new Bishop(Board, Color.Black));
+            PutNewPart('g', 8, new Horse(Board, Color.Black));
+            PutNewPart('h', 8, new Tower(Board, Color.Black));
+            PutNewPart('a', 7, new Pawn(Board, Color.Black));
+            PutNewPart('b', 7, new Pawn(Board, Color.Black));
+            PutNewPart('c', 7, new Pawn(Board, Color.Black));
+            PutNewPart('d', 7, new Pawn(Board, Color.Black));
+            PutNewPart('e', 7, new Pawn(Board, Color.Black));
+            PutNewPart('f', 7, new Pawn(Board, Color.Black));
+            PutNewPart('g', 7, new Pawn(Board, Color.Black));
+            PutNewPart('h', 7, new Pawn(Board, Color.Black));
         }
       
         private void ChangePlayer()
