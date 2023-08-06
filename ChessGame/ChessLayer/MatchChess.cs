@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ChessGame.BoardLayer;
 using ChessGame.ChessLayer;
 using ChessGame.BoardLayer.Enums;
@@ -8,6 +9,8 @@ namespace ChessGame.ChessLayer
 {
     internal class MatchChess
     {
+        private HashSet<Part> Parts;
+        private HashSet<Part> Captured;
         public int Shift { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public Board Board { get; private set; }
@@ -19,24 +22,26 @@ namespace ChessGame.ChessLayer
             CurrentPlayer = Color.White;
             Board = new Board(8, 8);        
             Finished = false;
+            Parts = new HashSet<Part>();
+            Captured = new HashSet<Part>();
             PutParts();
         }
 
         private void PutParts()
         {
-            Board.PutPart(new Tower(Board, Color.White), new PositionChess('c', 1).ToPosition());
-            Board.PutPart(new Tower(Board, Color.White), new PositionChess('c', 2).ToPosition());
-            Board.PutPart(new Tower(Board, Color.White), new PositionChess('d', 2).ToPosition());
-            Board.PutPart(new Tower(Board, Color.White), new PositionChess('e', 2).ToPosition());
-            Board.PutPart(new Tower(Board, Color.White), new PositionChess('e', 1).ToPosition());
-            Board.PutPart(new King(Board, Color.White), new PositionChess('d', 1).ToPosition());
+            PutNewPart('c', 1, new Tower(Board, Color.White));
+            PutNewPart('c', 2, new Tower(Board, Color.White));
+            PutNewPart('d', 2, new Tower(Board, Color.White));
+            PutNewPart('e', 2, new Tower(Board, Color.White));
+            PutNewPart('e', 1, new Tower(Board, Color.White));
+            PutNewPart('d', 1, new King(Board, Color.White));
 
-            Board.PutPart(new Tower(Board, Color.Black), new PositionChess('c', 7).ToPosition());
-            Board.PutPart(new Tower(Board, Color.Black), new PositionChess('c', 8).ToPosition());
-            Board.PutPart(new Tower(Board, Color.Black), new PositionChess('d', 7).ToPosition());
-            Board.PutPart(new Tower(Board, Color.Black), new PositionChess('e', 7).ToPosition());
-            Board.PutPart(new Tower(Board, Color.Black), new PositionChess('e', 8).ToPosition());
-            Board.PutPart(new King(Board, Color.Black), new PositionChess('d', 8).ToPosition());
+            PutNewPart('c', 7, new Tower(Board, Color.Black));
+            PutNewPart('c', 8, new Tower(Board, Color.Black));
+            PutNewPart('d', 7, new Tower(Board, Color.Black));
+            PutNewPart('e', 7, new Tower(Board, Color.Black));
+            PutNewPart('e', 8, new Tower(Board, Color.Black));
+            PutNewPart('d', 8, new King(Board, Color.Black));
         }
       
         private void ChangePlayer()
@@ -64,6 +69,10 @@ namespace ChessGame.ChessLayer
             part.IncreaseQuantityMoves();
             Part capturedPart = Board.RemovePart(target);
             Board.PutPart(part, target);
+            if (capturedPart != null)
+            {
+                Captured.Add(capturedPart);
+            }
         }
 
         public void ValidateOriginPosition(Position position)
@@ -88,6 +97,39 @@ namespace ChessGame.ChessLayer
             {
                 throw new BoardException("Invalid target position");
             }
+        }
+
+        public void PutNewPart(char column, int line, Part part)
+        {
+            Board.PutPart(part, new PositionChess(column, line).ToPosition());
+            Parts.Add(part);
+        }
+
+        public HashSet<Part> CapturedParts(Color color)
+        {
+            HashSet<Part> auxiliary = new HashSet<Part>();
+            foreach (Part captured in Captured)
+            {
+                if (captured.Color == color)
+                {
+                    auxiliary.Add(captured);
+                }
+            }
+            return auxiliary;
+        }
+
+        public HashSet<Part> PartsInGame(Color color)
+        {
+            HashSet<Part> auxiliary = new HashSet<Part>();
+            foreach (Part part in Parts)
+            {
+                if (part.Color == color)
+                {
+                    auxiliary.Add(part);
+                }
+            }
+            auxiliary.ExceptWith(CapturedParts(color));
+            return auxiliary;
         }
     }
 }

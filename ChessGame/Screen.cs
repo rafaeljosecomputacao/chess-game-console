@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ChessGame.BoardLayer;
 using ChessGame.ChessLayer;
 using ChessGame.BoardLayer.Enums;
@@ -8,6 +9,47 @@ namespace ChessGame
 {
     internal class Screen
     {
+        public static void PrintMatch(MatchChess match)
+        {
+            PrintBoard(match.Board);
+
+            Console.WriteLine();
+            PrintCapturedParts(match);
+
+            Console.WriteLine();
+            Console.WriteLine("Shift: " + match.Shift);
+            Console.WriteLine("Waiting move: " + match.CurrentPlayer);
+        }
+
+        public static void PrintCapturedParts(MatchChess match)
+        {
+            Console.WriteLine("Captured parts:");
+
+            Console.Write("White: ");
+            ConsoleColor white = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            PrintSet(match.CapturedParts(Color.White));
+            Console.ForegroundColor = white;
+            Console.WriteLine();
+
+            Console.Write("Black: ");
+            ConsoleColor black = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            PrintSet(match.CapturedParts(Color.Black));
+            Console.ForegroundColor = black;
+            Console.WriteLine();
+        }
+
+        public static void PrintSet(HashSet<Part> setParts)
+        {
+            Console.Write("[");
+            foreach (Part part in setParts)
+            {
+                Console.Write(part + " ");
+            }
+            Console.Write("]");
+        }
+
         public static void PrintBoard(Board board)
         {
             for (int i = 0; i < board.Lines; i++)
