@@ -2,7 +2,7 @@
 
 namespace ChessGame.BoardLayer
 {
-    internal class Part
+    internal abstract class Part
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -11,15 +11,17 @@ namespace ChessGame.BoardLayer
 
         public Part(Board board, Color color)
         {
-            Board = board;
+            Position = null;         
             Color = color;
-            Position = null;        
             QuantityMoves = 0;
+            Board = board;
         }
 
         public void IncreaseQuantityMoves()
         {
             QuantityMoves++;
         }
+
+        public abstract bool[,] PossibleMoves();
     }
 }

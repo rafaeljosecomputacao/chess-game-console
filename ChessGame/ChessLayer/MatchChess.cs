@@ -2,6 +2,7 @@
 using ChessGame.BoardLayer;
 using ChessGame.ChessLayer;
 using ChessGame.BoardLayer.Enums;
+using ChessGame.BoardLayer.Exceptions;
 
 namespace ChessGame.ChessLayer
 {
@@ -14,9 +15,9 @@ namespace ChessGame.ChessLayer
 
         public MatchChess()
         {
-            Board = new Board(8, 8);
             Shift = 1;
             CurrentPlayer = Color.White;
+            Board = new Board(8, 8);        
             Finished = false;
             PutParts();
         }
