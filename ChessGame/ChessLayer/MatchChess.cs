@@ -8,8 +8,8 @@ namespace ChessGame.ChessLayer
 {
     internal class MatchChess
     {
-        private int Shift;
-        private Color CurrentPlayer;
+        public int Shift { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public Board Board { get; private set; }
         public bool Finished { get; private set; }
 
@@ -38,6 +38,25 @@ namespace ChessGame.ChessLayer
             Board.PutPart(new Tower(Board, Color.Black), new PositionChess('e', 8).ToPosition());
             Board.PutPart(new King(Board, Color.Black), new PositionChess('d', 8).ToPosition());
         }
+      
+        private void ChangePlayer()
+        {
+            if (CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
+        }
+           
+        public void PerformsMove(Position origin, Position target)
+        {
+            ExecuteMove(origin, target);
+            Shift++;
+            ChangePlayer();
+        }
 
         public void ExecuteMove(Position origin, Position target)
         {
@@ -45,6 +64,30 @@ namespace ChessGame.ChessLayer
             part.IncreaseQuantityMoves();
             Part capturedPart = Board.RemovePart(target);
             Board.PutPart(part, target);
+        }
+
+        public void ValidateOriginPosition(Position position)
+        {
+            if (Board.Part(position) == null)
+            {
+                throw new BoardException("There is no part in the chosen origin position");
+            }
+            if (CurrentPlayer != Board.Part(position).Color)
+            {
+                throw new BoardException("The chosen origin part is not yours");
+            }
+            if (!Board.Part(position).ExistPossibleMoves())
+            {
+                throw new BoardException("There are no possible moves for the chosen origin part");
+            }
+        }
+
+        public void ValidateTargetPosition(Position origin, Position target)
+        {
+            if (!Board.Part(origin).CanMoveTo(target))
+            {
+                throw new BoardException("Invalid target position");
+            }
         }
     }
 }
