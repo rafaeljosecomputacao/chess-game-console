@@ -22,6 +22,11 @@ namespace ChessGame.BoardLayer
             QuantityMoves++;
         }
 
+        public void DecrementQuantityMoves()
+        {
+            QuantityMoves--;
+        }     
+
         public bool ExistPossibleMoves()
         {
             bool[,] matrix = PossibleMoves();

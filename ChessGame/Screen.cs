@@ -19,6 +19,14 @@ namespace ChessGame
             Console.WriteLine();
             Console.WriteLine("Shift: " + match.Shift);
             Console.WriteLine("Waiting move: " + match.CurrentPlayer);
+
+            if (match.Check)
+            {
+                ConsoleColor check = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Check");
+                Console.ForegroundColor = check;
+            }
         }
 
         public static void PrintCapturedParts(MatchChess match)
