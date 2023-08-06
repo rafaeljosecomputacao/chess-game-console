@@ -32,18 +32,18 @@ namespace ChessGame.ChessLayer
         private void PutParts()
         {
             PutNewPart('c', 1, new Tower(Board, Color.White));
-            PutNewPart('c', 2, new Tower(Board, Color.White));
-            PutNewPart('d', 2, new Tower(Board, Color.White));
-            PutNewPart('e', 2, new Tower(Board, Color.White));
-            PutNewPart('e', 1, new Tower(Board, Color.White));
+            PutNewPart('h', 7, new Tower(Board, Color.White));
+            //PutNewPart('d', 2, new Tower(Board, Color.White));
+            //PutNewPart('e', 2, new Tower(Board, Color.White));
+            //PutNewPart('e', 1, new Tower(Board, Color.White));
             PutNewPart('d', 1, new King(Board, Color.White));
 
-            PutNewPart('c', 7, new Tower(Board, Color.Black));
-            PutNewPart('c', 8, new Tower(Board, Color.Black));
-            PutNewPart('d', 7, new Tower(Board, Color.Black));
-            PutNewPart('e', 7, new Tower(Board, Color.Black));
-            PutNewPart('e', 8, new Tower(Board, Color.Black));
-            PutNewPart('d', 8, new King(Board, Color.Black));
+            PutNewPart('b', 8, new Tower(Board, Color.Black));
+            //PutNewPart('c', 8, new Tower(Board, Color.Black));
+            //PutNewPart('d', 7, new Tower(Board, Color.Black));
+            //PutNewPart('e', 7, new Tower(Board, Color.Black));
+            //PutNewPart('e', 8, new Tower(Board, Color.Black));
+            PutNewPart('a', 8, new King(Board, Color.Black));
         }
       
         private void ChangePlayer()
@@ -99,9 +99,15 @@ namespace ChessGame.ChessLayer
             {
                 Check = false;
             }
-
-            Shift++;
-            ChangePlayer();
+            if (TestCheck(Adversary(CurrentPlayer)))
+            {
+                Finished = true;
+            }
+            else
+            {
+                Shift++;
+                ChangePlayer();
+            }        
         }
 
         public Part ExecuteMove(Position origin, Position target)
@@ -202,6 +208,37 @@ namespace ChessGame.ChessLayer
                 }
             }
             return false;
+        }
+
+        public bool TestCheck(Color color)
+        {
+            if (!IsCheck(color))
+            {
+                return false;
+            }
+            foreach (Part part in PartsInGame(color))
+            {
+                bool[,] matrix = part.PossibleMoves();
+                for (int i = 0; i < Board.Lines; i++) 
+                { 
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (matrix[i, j])
+                        {
+                            Position origin = part.Position;
+                            Position target = new Position(i, j);
+                            Part capturedPart = ExecuteMove(origin, target);
+                            bool testCheck = IsCheck(color);
+                            UndoMove(origin, target, capturedPart);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
     }
 }
