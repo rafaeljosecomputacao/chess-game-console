@@ -5,12 +5,22 @@ namespace ChessGame.ChessLayer
 {
     internal class King : Part
     {
-        public King(Board board, Color color) : base(board, color) { }
+        private MatchChess match;
+        public King(Board board, Color color, MatchChess matchChess) : base(board, color) 
+        {
+            this.match = matchChess;
+        }
 
         private bool CanMove(Position position)
         {
             Part part = Board.Part(position);
             return part == null || part.Color != Color;
+        }
+
+        private bool TestTowerToRocket(Position position)
+        {
+            Part part = Board.Part(position);
+            return part != null && part is Tower && part.Color == Color && part.QuantityMoves == 0;
         }
 
         public override bool[,] PossibleMoves()
@@ -73,6 +83,35 @@ namespace ChessGame.ChessLayer
             if (Board.ValidPosition(position) && CanMove(position))
             {
                 possibleMoves[position.Line, position.Column] = true;
+            }
+
+            //rocket
+            if (QuantityMoves == 0 && !match.Check)
+            {
+                //short castling
+                Position positionTower1 = new Position(Position.Line, Position.Column + 3);
+                if (TestTowerToRocket(positionTower1))
+                {
+                    Position position1 = new Position(Position.Line, Position.Column + 1);
+                    Position position2 = new Position(Position.Line, Position.Column + 2);
+                    if (Board.Part(position1) == null && Board.Part(position2) == null)
+                    {
+                        possibleMoves[Position.Line, Position.Column + 2] = true;
+                    }
+                }
+
+                //long castling
+                Position positionTower2 = new Position(Position.Line, Position.Column - 4);
+                if (TestTowerToRocket(positionTower2))
+                {
+                    Position position1 = new Position(Position.Line, Position.Column - 1);
+                    Position position2 = new Position(Position.Line, Position.Column - 2);
+                    Position position3 = new Position(Position.Line, Position.Column - 3);
+                    if (Board.Part(position1) == null && Board.Part(position2) == null && Board.Part(position3) == null)
+                    {
+                        possibleMoves[Position.Line, Position.Column - 2] = true;
+                    }
+                }
             }
 
             return possibleMoves;

@@ -35,7 +35,7 @@ namespace ChessGame.ChessLayer
             PutNewPart('b', 1, new Horse(Board, Color.White));
             PutNewPart('c', 1, new Bishop(Board, Color.White));
             PutNewPart('d', 1, new Queen(Board, Color.White));
-            PutNewPart('e', 1, new King(Board, Color.White));
+            PutNewPart('e', 1, new King(Board, Color.White, this));
             PutNewPart('f', 1, new Bishop(Board, Color.White));
             PutNewPart('g', 1, new Horse(Board, Color.White));
             PutNewPart('h', 1, new Tower(Board, Color.White));
@@ -52,7 +52,7 @@ namespace ChessGame.ChessLayer
             PutNewPart('b', 8, new Horse(Board, Color.Black));
             PutNewPart('c', 8, new Bishop(Board, Color.Black));
             PutNewPart('d', 8, new Queen(Board, Color.Black));
-            PutNewPart('e', 8, new King(Board, Color.Black));
+            PutNewPart('e', 8, new King(Board, Color.Black, this));
             PutNewPart('f', 8, new Bishop(Board, Color.Black));
             PutNewPart('g', 8, new Horse(Board, Color.Black));
             PutNewPart('h', 8, new Tower(Board, Color.Black));
@@ -142,6 +142,27 @@ namespace ChessGame.ChessLayer
             {
                 Captured.Add(capturedPart);
             }
+
+            //short castling
+            if (part is King && target.Column == origin.Column + 2)
+            {
+                Position originTower = new Position(origin.Line, origin.Column + 3);
+                Position targetTower = new Position(origin.Line, origin.Column + 1);
+                Part tower = Board.RemovePart(originTower);
+                tower.IncreaseQuantityMoves();
+                Board.PutPart(tower, targetTower);
+            }
+
+            //long castling
+            if (part is King && target.Column == origin.Column - 2)
+            {
+                Position originTower = new Position(origin.Line, origin.Column - 4);
+                Position targetTower = new Position(origin.Line, origin.Column - 1);
+                Part tower = Board.RemovePart(originTower);
+                tower.IncreaseQuantityMoves();
+                Board.PutPart(tower, targetTower);
+            }
+
             return capturedPart;
         }
 
@@ -155,6 +176,26 @@ namespace ChessGame.ChessLayer
                 Captured.Remove(capturedPart);
             }
             Board.PutPart(part, origin);
+
+            //short castling
+            if (part is King && target.Column == origin.Column + 2)
+            {
+                Position originTower = new Position(origin.Line, origin.Column + 3);
+                Position targetTower = new Position(origin.Line, origin.Column + 1);
+                Part tower = Board.RemovePart(targetTower);
+                tower.DecrementQuantityMoves();
+                Board.PutPart(tower, originTower);
+            }
+
+            //long castling
+            if (part is King && target.Column == origin.Column - 2)
+            {
+                Position originTower = new Position(origin.Line, origin.Column - 4);
+                Position targetTower = new Position(origin.Line, origin.Column - 1);
+                Part tower = Board.RemovePart(targetTower);
+                tower.DecrementQuantityMoves();
+                Board.PutPart(tower, originTower);
+            }
         }
 
         public void ValidateOriginPosition(Position position)
