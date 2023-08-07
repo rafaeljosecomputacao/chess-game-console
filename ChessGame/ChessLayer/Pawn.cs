@@ -10,7 +10,7 @@ namespace ChessGame.ChessLayer
         private bool ExistEnemy(Position position)
         {
             Part part = Board.Part(position);
-            return part != null || part.Color != Color;
+            return part != null && part.Color != Color;
         }
 
         private bool Free(Position position)
@@ -33,7 +33,8 @@ namespace ChessGame.ChessLayer
                 }
 
                 position.SetValues(Position.Line - 2, Position.Column);
-                if (Board.ValidPosition(position) && Free(position) && QuantityMoves == 0)
+                Position position2 = new Position(Position.Line - 1, Position.Column);
+                if (Board.ValidPosition(position2) && Free(position2) && Board.ValidPosition(position) && Free(position) && QuantityMoves == 0)
                 {
                     possibleMoves[position.Line, position.Column] = true;
                 }
@@ -59,7 +60,8 @@ namespace ChessGame.ChessLayer
                 }
 
                 position.SetValues(Position.Line + 2, Position.Column);
-                if (Board.ValidPosition(position) && Free(position) && QuantityMoves == 0)
+                Position position2 = new Position(Position.Line + 1, Position.Column);
+                if (Board.ValidPosition(position2) && Free(position2) && Board.ValidPosition(position) && Free(position) && QuantityMoves == 0)
                 {
                     possibleMoves[position.Line, position.Column] = true;
                 }

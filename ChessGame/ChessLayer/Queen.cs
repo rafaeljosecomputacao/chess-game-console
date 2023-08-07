@@ -28,7 +28,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line, Position.Column - 1);
+                position.SetValues(position.Line, position.Column - 1);
             }
 
             //right
@@ -40,7 +40,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line, Position.Column + 1);
+                position.SetValues(position.Line, position.Column + 1);
             }
 
             //up
@@ -52,7 +52,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line - 1, Position.Column);
+                position.SetValues(position.Line - 1, position.Column);
             }
 
             //down
@@ -64,7 +64,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line + 1, Position.Column);
+                position.SetValues(position.Line + 1, position.Column);
             }
 
             //north west
@@ -76,7 +76,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line - 1, Position.Column - 1);
+                position.SetValues(position.Line - 1, position.Column - 1);
             }
 
             //north east
@@ -88,7 +88,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line - 1, Position.Column + 1);
+                position.SetValues(position.Line - 1, position.Column + 1);
             }
 
             //south east
@@ -100,7 +100,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line + 1, Position.Column + 1);
+                position.SetValues(position.Line + 1, position.Column + 1);
             }
 
             //south west
@@ -112,7 +112,7 @@ namespace ChessGame.ChessLayer
                 {
                     break;
                 }
-                position.SetValues(Position.Line + 1, Position.Column - 1);
+                position.SetValues(position.Line + 1, position.Column - 1);
             }
 
             return possibleMoves;

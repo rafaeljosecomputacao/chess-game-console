@@ -26,7 +26,7 @@ namespace ChessGame
                 if (match.Check)
                 {
                     ConsoleColor check = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.WriteLine("Check");
                     Console.ForegroundColor = check;
                 }
@@ -34,7 +34,7 @@ namespace ChessGame
             else
             {
                 ConsoleColor checkmate = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("Checkmate");
                 Console.WriteLine("Winner: " + match.CurrentPlayer);
                 Console.ForegroundColor = checkmate;
@@ -47,14 +47,14 @@ namespace ChessGame
 
             Console.Write("White: ");
             ConsoleColor white = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             PrintSet(match.CapturedParts(Color.White));
             Console.ForegroundColor = white;
             Console.WriteLine();
 
             Console.Write("Black: ");
             ConsoleColor black = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             PrintSet(match.CapturedParts(Color.Black));
             Console.ForegroundColor = black;
             Console.WriteLine();
@@ -75,7 +75,7 @@ namespace ChessGame
             for (int i = 0; i < board.Lines; i++)
             {
                 ConsoleColor numberColor = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.Write(8 - i + " ");
                 Console.ForegroundColor = numberColor;
                 for (int j = 0; j < board.Columns; j++)
@@ -85,7 +85,7 @@ namespace ChessGame
                 Console.WriteLine();
             }
             ConsoleColor letterColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("  a b c d e f g h");
             Console.ForegroundColor = letterColor;
         }
@@ -93,12 +93,12 @@ namespace ChessGame
         public static void PrintBoard(Board board, bool[,] possiblePositions)
         {
             ConsoleColor originalBackground = Console.BackgroundColor;
-            ConsoleColor newBackground = ConsoleColor.Green;
+            ConsoleColor newBackground = ConsoleColor.DarkCyan;
 
             for (int i = 0; i < board.Lines; i++)
             {
                 ConsoleColor numberColor = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.Write(8 - i + " ");
                 Console.ForegroundColor = numberColor;
                 for (int j = 0; j < board.Columns; j++)
@@ -117,7 +117,7 @@ namespace ChessGame
                 Console.WriteLine();
             }
             ConsoleColor letterColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("  a b c d e f g h");
             Console.ForegroundColor = letterColor;
 
@@ -135,14 +135,14 @@ namespace ChessGame
                 if (part.Color == Color.White)
                 {
                     ConsoleColor originalColor = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write(part);
                     Console.ForegroundColor = originalColor;
                 }
                 else
                 {
                     ConsoleColor originalColor = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write(part);
                     Console.ForegroundColor = originalColor;
                 }

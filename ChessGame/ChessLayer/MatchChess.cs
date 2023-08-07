@@ -111,6 +111,7 @@ namespace ChessGame.ChessLayer
                 UndoMove(origin, target, capturedPart);
                 throw new BoardException("You can't put yourself in check");
             }
+
             if (IsCheck(Adversary(CurrentPlayer)))
             {
                 Check = true;
@@ -119,6 +120,7 @@ namespace ChessGame.ChessLayer
             {
                 Check = false;
             }
+
             if (TestCheck(Adversary(CurrentPlayer)))
             {
                 Finished = true;
