@@ -16,6 +16,7 @@ namespace ChessGame.ChessLayer
         public Board Board { get; private set; }
         public bool Finished { get; private set; }
         public bool Check { get; private set; }
+        public Part VulnerableEnPassant { get; private set; }
 
         public MatchChess()
         {
@@ -24,6 +25,7 @@ namespace ChessGame.ChessLayer
             Board = new Board(8, 8);        
             Finished = false;
             Check = false;
+            VulnerableEnPassant = null;
             Parts = new HashSet<Part>();
             Captured = new HashSet<Part>();
             PutParts();
@@ -39,14 +41,14 @@ namespace ChessGame.ChessLayer
             PutNewPart('f', 1, new Bishop(Board, Color.White));
             PutNewPart('g', 1, new Horse(Board, Color.White));
             PutNewPart('h', 1, new Tower(Board, Color.White));
-            PutNewPart('a', 2, new Pawn(Board, Color.White));
-            PutNewPart('b', 2, new Pawn(Board, Color.White));
-            PutNewPart('c', 2, new Pawn(Board, Color.White));
-            PutNewPart('d', 2, new Pawn(Board, Color.White));
-            PutNewPart('e', 2, new Pawn(Board, Color.White));
-            PutNewPart('f', 2, new Pawn(Board, Color.White));
-            PutNewPart('g', 2, new Pawn(Board, Color.White));
-            PutNewPart('h', 2, new Pawn(Board, Color.White));
+            PutNewPart('a', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('b', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('c', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('d', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('e', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('f', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('g', 2, new Pawn(Board, Color.White, this));
+            PutNewPart('h', 2, new Pawn(Board, Color.White, this));
 
             PutNewPart('a', 8, new Tower(Board, Color.Black));
             PutNewPart('b', 8, new Horse(Board, Color.Black));
@@ -56,14 +58,14 @@ namespace ChessGame.ChessLayer
             PutNewPart('f', 8, new Bishop(Board, Color.Black));
             PutNewPart('g', 8, new Horse(Board, Color.Black));
             PutNewPart('h', 8, new Tower(Board, Color.Black));
-            PutNewPart('a', 7, new Pawn(Board, Color.Black));
-            PutNewPart('b', 7, new Pawn(Board, Color.Black));
-            PutNewPart('c', 7, new Pawn(Board, Color.Black));
-            PutNewPart('d', 7, new Pawn(Board, Color.Black));
-            PutNewPart('e', 7, new Pawn(Board, Color.Black));
-            PutNewPart('f', 7, new Pawn(Board, Color.Black));
-            PutNewPart('g', 7, new Pawn(Board, Color.Black));
-            PutNewPart('h', 7, new Pawn(Board, Color.Black));
+            PutNewPart('a', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('b', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('c', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('d', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('e', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('f', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('g', 7, new Pawn(Board, Color.Black, this));
+            PutNewPart('h', 7, new Pawn(Board, Color.Black, this));
         }
       
         private void ChangePlayer()
@@ -129,7 +131,18 @@ namespace ChessGame.ChessLayer
             {
                 Shift++;
                 ChangePlayer();
-            }        
+            }
+
+            //en passant
+            Part part = Board.Part(target);
+            if (part is Pawn && (target.Line == origin.Line - 2 || target.Line == origin.Line + 2))
+            {
+                VulnerableEnPassant = part;
+            }
+            else
+            {
+                VulnerableEnPassant = null;
+            }
         }
 
         public Part ExecuteMove(Position origin, Position target)
@@ -161,6 +174,25 @@ namespace ChessGame.ChessLayer
                 Part tower = Board.RemovePart(originTower);
                 tower.IncreaseQuantityMoves();
                 Board.PutPart(tower, targetTower);
+            }
+
+            //en passant
+            if (part is Pawn)
+            {
+                if (origin.Column != target.Column && capturedPart == null)
+                {
+                    Position positionPawn;
+                    if (part.Color == Color.White)
+                    {
+                        positionPawn = new Position(target.Line + 1, target.Column);
+                    }
+                    else
+                    {
+                        positionPawn = new Position(target.Line - 1, target.Column);
+                    }
+                    capturedPart = Board.RemovePart(positionPawn);
+                    Captured.Add(capturedPart);
+                }
             }
 
             return capturedPart;
@@ -195,6 +227,25 @@ namespace ChessGame.ChessLayer
                 Part tower = Board.RemovePart(targetTower);
                 tower.DecrementQuantityMoves();
                 Board.PutPart(tower, originTower);
+            }
+
+            //en passant
+            if (part is Pawn)
+            {
+                if (origin.Column != target.Column && capturedPart == VulnerableEnPassant)
+                {
+                    Part pawn = Board.RemovePart(target);
+                    Position positionPawn;
+                    if (part.Color == Color.White)
+                    {
+                        positionPawn = new Position(3, target.Column);
+                    }
+                    else
+                    {
+                        positionPawn = new Position(4, target.Column);
+                    }
+                    Board.PutPart(pawn, positionPawn);
+                }
             }
         }
 

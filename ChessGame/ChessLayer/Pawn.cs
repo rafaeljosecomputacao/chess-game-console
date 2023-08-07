@@ -5,7 +5,11 @@ namespace ChessGame.ChessLayer
 {
     internal class Pawn : Part
     {
-        public Pawn(Board board, Color color) : base(board, color) { }
+        private MatchChess match;
+        public Pawn(Board board, Color color, MatchChess matchChess) : base(board, color)
+        {
+            this.match = matchChess;
+        }
 
         private bool ExistEnemy(Position position)
         {
@@ -50,6 +54,24 @@ namespace ChessGame.ChessLayer
                 {
                     possibleMoves[position.Line, position.Column] = true;
                 }
+
+                //en passant
+                if (Position.Line == 3)
+                {
+                    //left
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && ExistEnemy(left) && Board.Part(left) == match.VulnerableEnPassant)
+                    {
+                        possibleMoves[left.Line - 1, left.Column] = true;
+                    }
+
+                    //right
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && ExistEnemy(right) && Board.Part(right) == match.VulnerableEnPassant)
+                    {
+                        possibleMoves[right.Line - 1, right.Column] = true;
+                    }
+                }              
             }
             else
             {
@@ -76,6 +98,24 @@ namespace ChessGame.ChessLayer
                 if (Board.ValidPosition(position) && ExistEnemy(position))
                 {
                     possibleMoves[position.Line, position.Column] = true;
+                }
+
+                //en passant
+                if (Position.Line == 4)
+                {
+                    //left
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (Board.ValidPosition(left) && ExistEnemy(left) && Board.Part(left) == match.VulnerableEnPassant)
+                    {
+                        possibleMoves[left.Line + 1, left.Column] = true;
+                    }
+
+                    //right
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (Board.ValidPosition(right) && ExistEnemy(right) && Board.Part(right) == match.VulnerableEnPassant)
+                    {
+                        possibleMoves[right.Line + 1, right.Column] = true;
+                    }
                 }
             }
             
