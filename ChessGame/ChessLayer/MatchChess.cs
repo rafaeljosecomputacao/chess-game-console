@@ -107,12 +107,26 @@ namespace ChessGame.ChessLayer
         public void PerformsMove(Position origin, Position target)
         {
             Part capturedPart = ExecuteMove(origin, target);
+            Part part = Board.Part(target);
 
             if (IsCheck(CurrentPlayer))
             {
                 UndoMove(origin, target, capturedPart);
                 throw new BoardException("You can't put yourself in check");
             }
+
+            //promotion
+            if (part is Pawn)
+            {
+                if ((part.Color == Color.White && target.Line == 0) || (part.Color == Color.Black && target.Line == 7))
+                {
+                    part = Board.RemovePart(target);
+                    Parts.Remove(part);
+                    Part queen = new Queen(Board, part.Color);
+                    Board.PutPart(queen, target);
+                    Parts.Add(queen);
+                }
+            }          
 
             if (IsCheck(Adversary(CurrentPlayer)))
             {
@@ -134,7 +148,6 @@ namespace ChessGame.ChessLayer
             }
 
             //en passant
-            Part part = Board.Part(target);
             if (part is Pawn && (target.Line == origin.Line - 2 || target.Line == origin.Line + 2))
             {
                 VulnerableEnPassant = part;
